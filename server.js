@@ -19,6 +19,7 @@ function start(port){
     
     app.use(function(req, res, next){
         console.log('IP: ' + req.ip);
+        res.set('X-IP', req.ip);
         next();
     });
     
@@ -30,7 +31,7 @@ function start(port){
         '198.245.95.127'
     ];
     app.use(ipfilter2({
-        forbidden: '403: Nope',
+        forbidden: '403: ',
         filter: allowedIPs,
         strict: false
     }));
