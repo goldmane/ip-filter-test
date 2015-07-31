@@ -1,2 +1,2 @@
-# ip-filter-test
-Testing the ipfilter module.
+# cerebrum
+NodeJS API application.
