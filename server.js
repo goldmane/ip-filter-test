@@ -33,9 +33,12 @@ function start(port){
         '198.245.95.127'
     ];
     app.use(ipfilter2({
-        forbidden: '403: ',
+        forbidden: '403: NOPE',
         filter: allowedIPs,
-        strict: false
+        strict: false,
+        id: function(req, res){
+            return req.headers['x-forwarded-form'] || req.ip;
+        }
     }));
     //app.use(ipfilter(allowedIPs, {mode: 'allow'}));
     /*
