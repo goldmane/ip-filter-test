@@ -19,7 +19,9 @@ function start(port){
     
     app.use(function(req, res, next){
         console.log('IP: ' + req.ip);
-        res.set('X-IP', req.ip);
+        res.set('req.ip', req.ip);
+        res.set("req.x-forwarded-for", req.headers['x-forwarded-for']);
+        res.set("req.connection.remoteAddress", req.connection.remoteAddress);
         next();
     });
     
