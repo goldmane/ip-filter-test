@@ -7,6 +7,8 @@ function start(port){
     var router = express.Router();
     var signedRequestHandler = require('./api/security/signedRequest');
     var request = require('request');
+    var ipfilter = require("express-ipfilter");
+    var ipfilter2 = require("express-ip-filter");
 
     app.use(function(req, res, next){
         res.header('Access-Control-Allow-Origin', '*');
@@ -14,6 +16,33 @@ function start(port){
         res.header('Access-Control-Allow-Headers', 'Content-Type');
         next();
     });
+    
+    app.use(function(req, res, next){
+        console.log('IP: ' + req.ip);
+        next();
+    });
+    
+    var allowedIPs = [
+        '::1', '127.0.0.1',
+        '198.245.95.124',
+        '198.245.95.125',
+        '198.245.95.126',
+        '198.245.95.127'
+    ];
+    app.use(ipfilter2({
+        forbidden: '403: Nope',
+        filter: allowedIPs,
+        strict: false
+    }));
+    //app.use(ipfilter(allowedIPs, {mode: 'allow'}));
+    /*
+        Bellevue: 66.162.129.250
+        Sydney: 115.70.220.86
+        Sydney2: 115.70.231.147
+        Melbourne: 115.70.164.242
+        UK: 195.99.198.234
+        Brazil:187.120.6.210
+    */
     
     routes.setup(router, handlers, request);
     router.use(signedRequestHandler);
