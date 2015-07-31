@@ -37,7 +37,7 @@ function start(port){
         filter: allowedIPs,
         strict: false,
         id: function(req, res){
-            return req.headers['x-forwarded-form'] || req.ip;
+            return req.headers['x-forwarded-from'] || req.ip;
         }
     }));
     //app.use(ipfilter(allowedIPs, {mode: 'allow'}));
